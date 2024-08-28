@@ -80,7 +80,7 @@ save same as before
 
 Now run this to allow hosts from the network 192.168.4.0/24 to connect
 ```
-sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -o wlan1 -j MASQUERADE
 ```
 and save the changes
 ```
