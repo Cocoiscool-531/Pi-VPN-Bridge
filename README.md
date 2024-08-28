@@ -2,11 +2,13 @@
 ***This repo covers my project of running a Raspberry Pi 4 Model B (Which will be refered to as "pi" from now on) as a network router, that will connect through tailscale vpn.***
 
 # Sources
-[vaibhavji Medium](https://vaibhavji.medium.com/turn-your-raspberrypi-into-a-wifi-router-5ade510601de)
-[nmcli docs](https://networkmanager.dev/docs/api/latest/nmcli.html)
+[Vaibhavji Medium](https://vaibhavji.medium.com/turn-your-raspberrypi-into-a-wifi-router-5ade510601de)
+[nmcli Documentation](https://networkmanager.dev/docs/api/latest/nmcli.html)
+[Tailscale Documentation](https://tailscale.com/kb/1017/install)
 
 # What you'll need
 Raspberry Pi (Any type should work, i will be using a Raspberry Pi 4 Model B for this)
+Another device running Tailscale on a different network, to act as an exit node. I'll call this the "host"
 Compatable Network Adapter
 MicroSD Card with Raspberry Pi OS Lite
 *Optional*
@@ -25,6 +27,17 @@ ip link show
 There should be 2 "wlan#" interfaces, they may be called "wlp82s#" (replace # with number, most likely 0 and 1)
 
 # Installing Required Packages
+Start by getting the apt transport https library
+
+```
+sudo apt-get install apt-transport-https
+```
+Then Tailscale's signing key & Repository
+```
+curl -fsSL https://pkgs.tailscale.com/stable/raspbian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg > /dev/null
+curl -fsSL https://pkgs.tailscale.com/stable/raspbian/bullseye.tailscale-keyring.list | sudo tee /etc/apt/sources.list.d/tailscale.list
+```
+
 Update your Pi with
 
 ```
@@ -32,6 +45,10 @@ sudo apt-get update
 sudo apt-get upgrade
 ```
 
+Now install Tailscale
+```
+sudo apt-get install Tailscale
+```
 
 Now install "hostapd" and "dnsmasq"
 ```
@@ -133,3 +150,25 @@ reboot again
 sudo systemctl reboot
 ```
 Now check that the network is available on a seperate device
+
+#Boot Tailscale on both your host and Pi
+From the Tailscale quickstart:
+"Go to [tailscale.com](https://tailscale.com) and select Get Started. Alternatively, you can [download and install](https://tailscale.com/kb/1347/installation) the Tailscale client on your device, then [sign up](https://login.tailscale.com/start).
+
+On the Sign up with your identity provider page, log in using a single sign-on (SSO) identity provider account."
+
+On the CLI (used on most Linux devices and Pi) type this
+```
+tailscale up
+```
+You should be prompted to sign in, sign in with the account made earlier
+
+On the app, open the app and sign in as prompted.
+
+Then on your host device, if it is a Mac:
+"From the Tailscale client, select Settings.
+Locate CLI integration section, then select Show me how.
+Select Install Now and provide the macOS administrator password."
+If on Windows:
+"On Windows, you can access the CLI by executing the .exe from the Command Prompt."
+Linux can continue with no extra steps.
