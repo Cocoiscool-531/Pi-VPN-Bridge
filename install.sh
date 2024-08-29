@@ -8,7 +8,7 @@ read -p "Enter IP Address start range. ex. 192.168.86.4.2: " ip_start_range
 read -p "Enter IP Address end range. ex. 192.168.86.4.20: " ip_end_range
 read -p "Enter subnet mask. ex. 255.255.255.0: " subnet_mask
 read -p "Enter DHCP Lease time in hours. ex. 24h: " dhcp_lease
-read -p "Enter your wlan 2 letter country code. ex. US" wlan_country_code
+read -p "Enter your wlan 2 letter country code. https://en.wikipedia.org/wiki/ISO_3166-1" wlan_country_code
 read -p "Enter your new Wifi network name" ssid
 read -p "Enter your new Wifi password" wifi_pass
 
