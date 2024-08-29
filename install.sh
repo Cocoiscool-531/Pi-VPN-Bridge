@@ -8,8 +8,9 @@ read -p "Enter IP Address start range. ex. 192.168.86.4.2: " ip_start_range
 read -p "Enter IP Address end range. ex. 192.168.86.4.20: " ip_end_range
 read -p "Enter subnet mask. ex. 255.255.255.0: " subnet_mask
 read -p "Enter DHCP Lease time in hours. ex. 24h: " dhcp_lease
-read -p "Wifi network name" ssid
-read -p "Wifi password" wifi_pass
+read -p "Enter your wlan 2 letter country code. ex. US" wlan_country_code
+read -p "Enter your new Wifi network name" ssid
+read -p "Enter your new Wifi password" wifi_pass
 
 sudo apt-get install apt-transport-https
 curl -fsSL https://pkgs.tailscale.com/stable/raspbian/bullseye.noarmor.gpg | sudo tee /usr/share/keyrings/tailscale-archive-keyring.gpg > /dev/null
@@ -35,7 +36,7 @@ domain=wlan
 address=/gw.wlan/${static_ip}" > /etc/dnsmasq.conf
 sudo rfkill unblock wlan
 
-sudo echo "country_code=IN
+sudo echo "country_code=${wlan_country_code}
 interface=${ap_interface}
 ssid=${ssid}
 hw_mode=g
