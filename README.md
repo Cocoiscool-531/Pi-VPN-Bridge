@@ -159,7 +159,7 @@ On the Sign up with your identity provider page, log in using a single sign-on (
 
 On the CLI (used on most Linux devices and Pi) type this
 ```
-tailscale up
+tailscale login
 ```
 You should be prompted to sign in, sign in with the account made earlier
 
@@ -172,3 +172,36 @@ Select Install Now and provide the macOS administrator password."
 If on Windows:
 "On Windows, you can access the CLI by executing the .exe from the Command Prompt."
 Linux can continue with no extra steps.
+
+Now on the HOST, run
+```
+tailscale up --advertise-exit-node
+```
+note: you may want to add any of the following along with this to allow access to local web servers, set DNS settings, etc.
+```
+--accept-dns=[true/false]
+--advertise-routes[ip address range ex. 192.168.86.0/24
+--hostname [chosen_host_name]
+```
+
+Note the hostname from the [admin portal](https://login.tailscale.com/admin/machines)
+
+Now we will set up the Pi
+
+On the pi, with power and Pi OS, run:
+```
+tailscale up --exit-node [host's_hostname]
+```
+
+Now connect to the VPN and check if its working.
+I would test it by trying it out on a local webserver or checking if adblocking through pihole is working.
+If you advertised your network through ```--advertise-routes[ip address range ex. 192.168.86.0/24``` on the host and used ```--accept-routes``` on the pi you can try
+```
+ping [your router's IP address or local web server]
+```
+and terminate the proccess with Control C once you know if its working.
+
+
+
+
+#Thats it! It should now be working.
